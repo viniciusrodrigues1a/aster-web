@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 type AuthContextData = {
   signIn: (email: string, password: string) => void;
@@ -21,6 +22,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
+
+    const isStatus2xx = raw.status.toString().startsWith("2");
+    if (!isStatus2xx) {
+      const message = await raw.text();
+      toast(message, { type: "error" });
+      return;
+    }
+
+    const isStatus5xx = raw.status.toString().startsWith("5");
+    if (isStatus5xx) {
+      toast("unexpected error when logging in", { type: "error" });
+      return;
+    }
 
     const response = await raw.json();
 
