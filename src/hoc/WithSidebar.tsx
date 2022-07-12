@@ -97,7 +97,7 @@ export function WithSidebar(Component: () => React.ReactElement) {
 
           <button
             type="button"
-            className={getIconButtonClasses("/expenses") + " mt-6"}
+            className={getIconButtonClasses("/expenses") + " mt-6 mb-6"}
             onClick={() => navigate("/expenses")}
           >
             <div className={getIconClasses("/expenses")}>
