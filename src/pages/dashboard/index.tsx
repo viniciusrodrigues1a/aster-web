@@ -62,6 +62,10 @@ function _Dashboard() {
 
   return (
     <>
+      <div className="pl-12 pt-12">
+        <h1 className="font-bold text-lg">See your products</h1>
+      </div>
+
       <div className="px-16 py-16 xl:px-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-5 gap-20 justify-items-center">
         {inventory.products.map((p) => (
           <div>
