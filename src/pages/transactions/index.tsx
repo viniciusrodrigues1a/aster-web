@@ -64,6 +64,7 @@ function _Transactions() {
         <div className="mt-4">
           {inventory.transactions.map((t) => (
             <Transaction
+              key={t.id}
               icon={() => <OkCircle />}
               description={t.description}
               value={String(t.value_paid)}

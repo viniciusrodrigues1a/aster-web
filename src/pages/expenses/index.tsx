@@ -62,11 +62,12 @@ function _Expenses() {
         <h1 className="font-bold text-lg">See your expenses</h1>
 
         <div className="mt-4">
-          {inventory.expenses.map((t) => (
+          {inventory.expenses.map((e) => (
             <Transaction
+              key={e.id}
               icon={() => <MoneyCircle />}
-              description={t.description}
-              value={String(t.value)}
+              description={e.description}
+              value={String(e.value)}
               timeAgo="30 minutes ago"
               productName="Keyboard"
             />

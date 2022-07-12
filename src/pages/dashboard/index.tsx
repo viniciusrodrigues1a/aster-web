@@ -68,8 +68,8 @@ function _Dashboard() {
 
       <div className="px-16 py-16 xl:px-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-5 gap-20 justify-items-center">
         {inventory.products.map((p) => (
-          <div>
-            <div key={p.id} className="w-64 h-64 relative">
+          <div key={p.id}>
+            <div className="w-64 h-64 relative">
               <img
                 className="w-full h-full absolute top-0 left-0 border-2 border-slate-300 rounded"
                 src={
