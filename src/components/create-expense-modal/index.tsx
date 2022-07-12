@@ -73,12 +73,20 @@ export function CreateExpenseModal({
           type="text"
           name="title"
           id="title"
-          placeholder="Enter title"
+          label="Enter title"
+          placeholder="Restocking monitors"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
 
         <div className="mt-4">
+          <label
+            htmlFor="product-id"
+            className="after:content-['*'] after:ml-0.5 after:text-red-500"
+          >
+            Select a product
+          </label>
           <select
             name="product-id"
             id="product-id"
@@ -86,6 +94,7 @@ export function CreateExpenseModal({
             value={productId}
             onChange={(e) => setProductId(e.target.value)}
           >
+            <option value={""}>Select</option>
             {inventory.products.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.title} - {formatBalance(String(p.sale_price))}
@@ -99,9 +108,11 @@ export function CreateExpenseModal({
             type="text"
             name="value"
             id="value"
-            placeholder="Enter value"
+            label="Enter value"
+            placeholder="$ 0.00"
             value={value}
             onChange={handleValueChange}
+            required
           />
         </div>
 
@@ -110,7 +121,8 @@ export function CreateExpenseModal({
             type="text"
             name="description"
             id="description"
-            placeholder="Enter description"
+            label="Enter description"
+            placeholder="5 more monitors"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

@@ -75,6 +75,12 @@ export function CreateTransactionModal({
       title="Create a new transaction"
     >
       <form className="mt-10" onSubmit={handleOnSubmit}>
+        <label
+          htmlFor="product-id"
+          className="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >
+          Select a product
+        </label>
         <select
           name="product-id"
           id="product-id"
@@ -82,9 +88,7 @@ export function CreateTransactionModal({
           value={productId}
           onChange={(e) => setProductId(e.target.value)}
         >
-          <option value={""} selected disabled>
-            Select
-          </option>
+          <option value={""}>Select</option>
           {inventory.products.map((p) => (
             <option key={p.id} value={p.id}>
               {p.title} - {formatBalance(String(p.sale_price))}
@@ -98,9 +102,11 @@ export function CreateTransactionModal({
               type="text"
               name="quantity"
               id="quantity"
-              placeholder="Enter quantity"
+              label="Enter quantity"
+              placeholder="$ 0.00"
               value={quantity}
               onChange={handleQuantityChange}
+              required
             />
           </div>
 
@@ -109,9 +115,11 @@ export function CreateTransactionModal({
               type="text"
               name="value_paid"
               id="value_paid"
-              placeholder="Enter value paid"
+              label="Enter value paid"
+              placeholder="$ 0.00"
               value={valuePaid}
               onChange={handleValuePaidChange}
+              required
             />
           </div>
         </div>
@@ -123,7 +131,8 @@ export function CreateTransactionModal({
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter description"
+            label="Enter description"
+            placeholder="Sold 3 monitors"
           />
         </div>
 

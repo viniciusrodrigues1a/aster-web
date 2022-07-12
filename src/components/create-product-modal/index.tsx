@@ -146,7 +146,9 @@ export function CreateProductModal({
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter title"
+          label="Enter title"
+          placeholder="Monitor"
+          required
         />
 
         <div className="mt-4 flex justify-between items-center">
@@ -155,9 +157,11 @@ export function CreateProductModal({
               type="text"
               name="sale-price"
               id="sale-price"
-              placeholder="Enter sale price"
+              label="Enter sale price"
+              placeholder="$ 0.00"
               value={salePrice}
               onChange={handleSalePriceChange}
+              required
             />
           </div>
 
@@ -166,9 +170,11 @@ export function CreateProductModal({
               type="text"
               name="purchase-price"
               id="purchase-price"
-              placeholder="Enter purchase price"
+              label="Enter purchase price"
+              placeholder="$ 0.00"
               value={purchasePrice}
               onChange={handlePurchasePriceChange}
+              required
             />
           </div>
         </div>
@@ -182,7 +188,8 @@ export function CreateProductModal({
               onChange={handleQuantityChange}
               name="quantity"
               id="quantity"
-              placeholder="Enter quantity"
+              label="Enter quantity"
+              required
             />
           </div>
         </div>
@@ -192,7 +199,8 @@ export function CreateProductModal({
             type="text"
             name="description"
             id="description"
-            placeholder="Enter description"
+            label="Enter description"
+            placeholder="Full HD Monitor"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
