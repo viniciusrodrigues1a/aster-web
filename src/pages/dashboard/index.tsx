@@ -27,6 +27,9 @@ function _Dashboard() {
       formData.append("quantity", dto.quantity.toString());
       formData.append("purchase_price", dto.purchasePrice.toString());
       formData.append("sale_price", dto.salePrice.toString());
+      if (dto.image) {
+        formData.append("image", dto.image);
+      }
 
       const raw = await fetch("http://localhost:8080/products", {
         method: "POST",

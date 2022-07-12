@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import styles from "./styles.module.css";
+import UploadCloud from "../../assets/upload-cloud.svg";
+
 import {
   convertBalanceToNumber,
   formatBalance,
@@ -16,6 +19,7 @@ export type ProductDTO = {
   quantity: number;
   purchasePrice: number;
   salePrice: number;
+  image?: File;
 };
 
 type CreateProductModalProps = {
@@ -34,6 +38,8 @@ export function CreateProductModal({
   const [salePrice, setSalePrice] = useState("$ 0.00");
   const [purchasePrice, setPurchasePrice] = useState("$ 0.00");
   const [quantity, setQuantity] = useState("0");
+  const [imagePreview, setImagePreview] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (!isShown) {
@@ -42,6 +48,8 @@ export function CreateProductModal({
       setSalePrice("$ 0.00");
       setPurchasePrice("$ 0.00");
       setQuantity("0");
+      setImagePreview("");
+      setImageFile(null);
     }
   }, [isShown]);
 
@@ -54,6 +62,7 @@ export function CreateProductModal({
       quantity: Number(quantity),
       purchasePrice: convertBalanceToNumber(purchasePrice),
       salePrice: convertBalanceToNumber(salePrice),
+      image: imageFile || undefined,
     });
   }
 
@@ -77,6 +86,22 @@ export function CreateProductModal({
     }
   }
 
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    setImageFile(file);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => setImagePreview(reader.result as string);
+  }
+
+  function handleOnImgError(e: any) {
+    e.target.src = null;
+  }
+
   return (
     <Modal
       isShown={isShown}
@@ -84,6 +109,37 @@ export function CreateProductModal({
       title={"Create a new product"}
     >
       <form className="mt-10" onSubmit={handleOnSubmit}>
+        <div className="w-full mb-10 relative">
+          <div
+            className={`w-48 h-48 m-auto bg-blue-200 rounded-full ${
+              !imagePreview ? styles.imageInputContainer : ""
+            }`}
+          >
+            {!!imagePreview && (
+              <img
+                className="w-48 h-48 m-auto rounded-full border-2 border-blue-600"
+                src={imagePreview}
+                onError={handleOnImgError}
+                alt="Product"
+              />
+            )}
+            {!imagePreview && (
+              <div className="h-full flex justify-center items-center">
+                <img className="w-10 h-10" src={UploadCloud} alt="Upload" />
+              </div>
+            )}
+            <input
+              className="w-48 h-full absolute top-0 left-1/2 -translate-x-1/2 rounded-full opacity-0 cursor-pointer"
+              type="file"
+              accept="image/png, image/jpeg, image/svg+xml"
+              name="product-image"
+              id="product-image"
+              alt="Product"
+              onChange={handleImageChange}
+            />
+          </div>
+        </div>
+
         <Input
           type="text"
           name="title"
