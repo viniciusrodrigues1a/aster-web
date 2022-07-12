@@ -11,6 +11,7 @@ import {
   CreateExpenseModal,
   ExpenseDTO,
 } from "../../components/create-expense-modal";
+import { EmptyList } from "../../components/empty-list";
 
 function _Expenses() {
   const { token } = useAuthContext();
@@ -56,23 +57,36 @@ function _Expenses() {
     [fetchExpense, refetch]
   );
 
+  let expenses = (
+    <>
+      {inventory.expenses.map((e) => (
+        <Transaction
+          key={e.id}
+          icon={() => <MoneyCircle />}
+          description={e.description}
+          value={String(e.value)}
+          timeAgo="30 minutes ago"
+          productName="Keyboard"
+        />
+      ))}
+    </>
+  );
+  if (inventory.expenses.length === 0) {
+    expenses = (
+      <EmptyList
+        message="No expenses have been created yet"
+        buttonTitle="Create an expense"
+        onClick={() => setIsModalShown(true)}
+      />
+    );
+  }
+
   return (
     <>
       <div className="p-12">
         <h1 className="font-bold text-lg">See your expenses</h1>
 
-        <div className="mt-4">
-          {inventory.expenses.map((e) => (
-            <Transaction
-              key={e.id}
-              icon={() => <MoneyCircle />}
-              description={e.description}
-              value={String(e.value)}
-              timeAgo="30 minutes ago"
-              productName="Keyboard"
-            />
-          ))}
-        </div>
+        <div className="mt-4">{expenses}</div>
       </div>
 
       <CreateButtonAbsolute

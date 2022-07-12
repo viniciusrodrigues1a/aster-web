@@ -11,6 +11,7 @@ import {
   CreateTransactionModal,
   TransactionDTO,
 } from "../../components/create-transaction-modal";
+import { EmptyList } from "../../components/empty-list";
 
 function _Transactions() {
   const { token } = useAuthContext();
@@ -56,23 +57,36 @@ function _Transactions() {
     [fetchTransaction, refetch]
   );
 
+  let transactions = (
+    <>
+      {inventory.transactions.map((t) => (
+        <Transaction
+          key={t.id}
+          icon={() => <OkCircle />}
+          description={t.description}
+          value={String(t.value_paid)}
+          timeAgo="30 minutes ago"
+          productName="Keyboard"
+        />
+      ))}
+    </>
+  );
+  if (inventory.transactions.length === 0) {
+    transactions = (
+      <EmptyList
+        message="No transactions have been created yet"
+        buttonTitle="Create a transaction"
+        onClick={() => setIsModalShown(true)}
+      />
+    );
+  }
+
   return (
     <>
       <div className="p-12">
         <h1 className="font-bold text-lg">See your transactions</h1>
 
-        <div className="mt-4">
-          {inventory.transactions.map((t) => (
-            <Transaction
-              key={t.id}
-              icon={() => <OkCircle />}
-              description={t.description}
-              value={String(t.value_paid)}
-              timeAgo="30 minutes ago"
-              productName="Keyboard"
-            />
-          ))}
-        </div>
+        <div className="mt-4">{transactions}</div>
       </div>
 
       <CreateButtonAbsolute
