@@ -81,12 +81,7 @@ export function CreateExpenseModal({
         />
 
         <div className="mt-4">
-          <label
-            htmlFor="product-id"
-            className="after:content-['*'] after:ml-0.5 after:text-red-500"
-          >
-            Select a product
-          </label>
+          <label htmlFor="product-id">Select a product</label>
           <select
             name="product-id"
             id="product-id"
