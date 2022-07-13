@@ -10,6 +10,7 @@ import {
 import { useCallback, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { EmptyList } from "../../components/empty-list";
+import { toast } from "react-toastify";
 
 function _Dashboard() {
   const { token } = useAuthContext();
@@ -40,8 +41,17 @@ function _Dashboard() {
         },
       });
 
-      if (raw.status !== 200) {
-        throw new Error("Couldn't fetch POST products/");
+      const isStatus5xx = raw.status.toString().startsWith("5");
+      if (isStatus5xx) {
+        toast("Unexpected error when logging in", { type: "error" });
+        return;
+      }
+
+      const isStatus2xx = raw.status.toString().startsWith("2");
+      if (!isStatus2xx) {
+        const message = await raw.text();
+        toast(message, { type: "error" });
+        return;
       }
     },
     [token]

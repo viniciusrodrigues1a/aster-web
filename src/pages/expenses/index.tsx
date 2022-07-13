@@ -12,6 +12,7 @@ import {
   ExpenseDTO,
 } from "../../components/create-expense-modal";
 import { EmptyList } from "../../components/empty-list";
+import { toast } from "react-toastify";
 
 function _Expenses() {
   const { token } = useAuthContext();
@@ -26,7 +27,7 @@ function _Expenses() {
       const raw = await fetch("http://localhost:8080/expenses", {
         method: "POST",
         body: JSON.stringify({
-          product_id: dto.productId,
+          product_id: dto.productId || undefined,
           title: dto.title,
           description: dto.description,
           value: dto.value,
@@ -36,8 +37,17 @@ function _Expenses() {
         },
       });
 
-      if (raw.status !== 200) {
-        throw new Error("Couldn't fetch POST expenses/");
+      const isStatus5xx = raw.status.toString().startsWith("5");
+      if (isStatus5xx) {
+        toast("Unexpected error when logging in", { type: "error" });
+        return;
+      }
+
+      const isStatus2xx = raw.status.toString().startsWith("2");
+      if (!isStatus2xx) {
+        const message = await raw.text();
+        toast(message, { type: "error" });
+        return;
       }
     },
     [token]
